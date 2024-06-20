@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Todo List</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f7f8fc;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+        #app {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        h1 {
+            font-size: 28px;
+            color: #343a40;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 700;
+        }
+        input[type="text"] {
+            width: calc(100% - 24px);
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus {
+            border-color: #495057;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        ul li {
+            padding: 15px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s, border-color 0.3s;
+        }
+        ul li:hover {
+            background: #e9ecef;
+            border-color: #adb5bd;
+        }
+        ul li.completed {
+            text-decoration: line-through;
+            color: #adb5bd;
+        }
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .button {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .button:hover {
+            background: #5a6268;
+        }
+        .button.delete {
+            background: #ff6b6b;
+        }
+        .button.delete:hover {
+            background: #fa5252;
+        }
+        .button i {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>Todo List</h1>
+        <input type="text" id="newTodo" placeholder="Add a new task...">
+        <ul id="todoList"></ul>
+    </div>
+    <script>
+        document.getElementById("newTodo").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                addTodo();
+            }
+        });
+
+        function addTodo() {
+            const newTodoInput = document.getElementById("newTodo");
+            const todoText = newTodoInput.value.trim();
+            if (todoText !== "") {
+                const todoList = document.getElementById("todoList");
+
+                const li = document.createElement("li");
+                li.textContent = todoText;
+
+                const buttons = document.createElement("div");
+                buttons.classList.add("buttons");
+
+                const completeButton = document.createElement("button");
+                completeButton.classList.add("button", "complete");
+                completeButton.innerHTML = '<i class="fas fa-check"></i> Complete';
+                completeButton.onclick = function() {
+                    li.classList.toggle("completed");
+                };
+
+                const deleteButton = document.createElement("button");
+                deleteButton.classList.add("button", "delete");
+                deleteButton.innerHTML = '<i class="fas fa-trash"></i> Delete';
+                deleteButton.onclick = function() {
+                    todoList.removeChild(li);
+                };
+
+                buttons.appendChild(completeButton);
+                buttons.appendChild(deleteButton);
+                li.appendChild(buttons);
+
+                todoList.appendChild(li);
+                newTodoInput.value = "";
+            }
+        }
+    </script>
+</body>
+</html>
